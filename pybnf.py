@@ -90,24 +90,27 @@ class GrammarParse:
 		return self.source[self.position:]
 
 def parse_ebnf(ebnf):
+	print(">L???")
 	ebnf = convert_whitespace(ebnf).strip()
 	start,end=0,0
 	max_pos=len(ebnf)
-	is_good = lambda s,e:s<max_pos and e<max_pos
+	is_good = lambda s,e,m:s<m and e<m
 	def skip_until(s,p,*m,invert=False):
 		condition = (lambda t,p,s:s[p:p+len(t)]!=t)
 		if invert:condition = (lambda t,p,s:s[p:p+len(t)]==t)
 		while any(condition(t,p,s) for t in m):p+=1
 		return p
-	while is_good(start,end):
+	print(start,end,max_pos)
+	while is_good(start,end,max_pos):
 		#skip white-space.
+		print("LOL")
 		start = skip_until(ebnf,start,' ',invert=True)
 		#find the end of the rule-name.
 		end = skip_until(ebnf,start,'=')
 		rule_name = ebnf[start:end].strip()
 		#we can't assume that this thing 
 		start = end = skip_until(ebnf,end,'=') + 1
-		print(ebnf[start:])
+		print('::',ebnf[start:])
 		#now that we have the rule, find the definitions.
 		definitions = []
 		while is_good(start,end):
@@ -133,10 +136,4 @@ if __name__=="__main__":
 		mathematic expression = number, mathematic operator, number;
 		number = digit | mathematic expression;
 	"""
-	#grammar = Grammar(sample_ebnf)
-	#for rule,definitions in grammar.rules.items():
-	#	print("Rule","'" + rule + "'","has the following definitions:")
-	#	for definition in definitions:
-	#		print("\t",definition)
-	#	print("="*80)
 	parse_ebnf(sample_ebnf)
