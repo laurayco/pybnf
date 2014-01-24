@@ -20,6 +20,9 @@ def parse_definition(defi):
 		#    will be interpreted as a regex literal.
 		#  Anything else will be read as a reference
 		#    to a different rule.
+		#  A (), {}, or [] denotes a sub-set of tokens.
+		#    They will be yielded as either 'sub', 'repeated', or 'optional' and an
+		#    generator of the sub-set.
 	return range(0)
 
 def parse_ebnf(lang):
