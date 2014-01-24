@@ -28,16 +28,18 @@ def parse_definition(defi):
 def parse_ebnf(lang):
 	# remove redundant whitespace, and normalize it into a single space.
 	lang = convert_whitespace(lang).strip()
-	start,end,last = 0,0,len(lang)
-	while start < last and end < last:
-		# yield rules
-		end = lang.find("=",start)
-		rule_name = lang[start:end].strip()
-		start = end = end + 1
-		end = lang.find(";",start)
-		rule_definition = lang[start:end].strip()
-		yield (rule_name, parse_definition(rule_definition))
-		start = end = end + 1
+	current_rule,state = {
+		'name':[0,0],
+		'definition':[]
+	},'finding name'
+	for c in lang:
+		if state=='finding name':
+			if c=='=':
+				state='building definition':
+				break
+			else:
+				current_rule['name']+=c#add the character to the name.
+
 
 if __name__=="__main__":
 	sample_ebnf = """
