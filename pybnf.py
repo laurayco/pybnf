@@ -25,21 +25,31 @@ def parse_definition(defi):
 		#    generator of the sub-set.
 	return range(0)
 
-def parse_ebnf(lang):
-	# remove redundant whitespace, and normalize it into a single space.
-	lang = convert_whitespace(lang).strip()
-	current_rule,state = {
-		'name':[0,0],
-		'definition':[]
-	},'finding name'
-	for c in lang:
-		if state=='finding name':
-			if c=='=':
-				state='building definition':
-				break
-			else:
-				current_rule['name']+=c#add the character to the name.
-
+class GrammarParser:
+	def __init__(self,lang):
+		# remove redundant whitespace, and normalize it into a single space.
+		lang = convert_whitespace(lang).strip()
+		token_searches = '= , | { } (* *) ( ) [ ] ;'.split()
+		end_states = [
+			self.create_rule,
+			self.sequence_token,
+			self.alternate_definition,
+			self.start_repeating,
+			self.end_repeating,
+			self.start_comment,
+			self.end_comment,
+			self.start_group,
+			self.end_group,
+			self.start_optional,
+			self.end_optional,
+			self.end_rule
+		]
+		self.state,escaped,position,piece_start = 0,False,0,0
+		while position < len(lang):
+			tok = token_searches[self.state]
+			if lang[position:position+len(tok)]==tok and not escaped:
+				self.state = end_states[self.state](lang[current_piece[0]:position])
+				piece_start = position = position + 1
 
 if __name__=="__main__":
 	sample_ebnf = """
@@ -57,7 +67,7 @@ if __name__=="__main__":
 		#As the definition variable increases in complexity,
 		# So will this.
 		print('\t->',defin,sep='')
-
-	for name, definition in parse_ebnf(sample_ebnf):
+	grammar = GrammarParser(sample_ebnf)
+	for name, definition in grammar.rules.items():
 		print("Rule",name,end=':\n')
 		display_definition(definition)
