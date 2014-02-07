@@ -3,53 +3,29 @@ from re import compile as Regex, sub as regex_replace
 get_pieces = lambda src,sp:[p.strip() for p in src.split(sp) if len(p.strip())>0]
 convert_whitespace = lambda src:regex_replace("\s\s+"," ",src)
 
-def parse_definition(defi):
-	#I know this won't be accessed often,
-	# but just in case it is, I'm ensuring
-	# that the definition is stripped
-	# and reduced for whitespace.
-	defi = convert_whitespace(defi).strip()
-	start,end,last = 0,0,len(defi)
-	while start<last and end < last:
-		# An alternation creates a new yield.
-		#  A sub-group creates a new list.
-		#  A comment is ignored.
-		#  A literal marked with double-quotes ("")
-		#    will be interpreted as a literal literal.
-		#  A literal marked with single-quotes ('')
-		#    will be interpreted as a regex literal.
-		#  Anything else will be read as a reference
-		#    to a different rule.
-		#  A (), {}, or [] denotes a sub-set of tokens.
-		#    They will be yielded as either 'sub', 'repeated', or 'optional' and an
-		#    generator of the sub-set.
-	return range(0)
+class Tokenizer:
+	def __init__(self,stoplist):
+		self.stoplist = stoplist
+	def __call__(self,text):
+		position,end = 0, len(text)
+		while position<end:
+			start = position
+			while text[position] not in self.stoplist:
+				position+=1
+			else:
+				yield text[position],None
+			if position>start:
+				yield text[position],text[start:position]
+			position += 1
 
 class GrammarParser:
-	def __init__(self,lang):
-		# remove redundant whitespace, and normalize it into a single space.
-		lang = convert_whitespace(lang).strip()
-		token_searches = '= , | { } (* *) ( ) [ ] ;'.split()
-		end_states = [
-			self.create_rule,
-			self.sequence_token,
-			self.alternate_definition,
-			self.start_repeating,
-			self.end_repeating,
-			self.start_comment,
-			self.end_comment,
-			self.start_group,
-			self.end_group,
-			self.start_optional,
-			self.end_optional,
-			self.end_rule
-		]
-		self.state,escaped,position,piece_start = 0,False,0,0
-		while position < len(lang):
-			tok = token_searches[self.state]
-			if lang[position:position+len(tok)]==tok and not escaped:
-				self.state = end_states[self.state](lang[current_piece[0]:position])
-				piece_start = position = position + 1
+	rules = {}
+	tokenizer = Tokenizer("'\"(){}[]*;|=, ")
+	def __init__(self,grammar_text):
+		self.grammar_text = convert_whitespace(grammar_text)
+		for token, data in self.tokenizer(self.grammar_text):
+			print(token,data)
+		self.rules = {}
 
 if __name__=="__main__":
 	sample_ebnf = """
