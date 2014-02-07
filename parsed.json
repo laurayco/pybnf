@@ -1,0 +1,50 @@
+{
+  "\"\"  division operator": [
+    []
+  ], 
+  "\"\"+\"  subtraction operator": [
+    []
+  ], 
+  "\"\"-\"  multiplication operator": [
+    []
+  ], 
+  "\"\"/\"  mathematic operator": [
+    [], 
+    [], 
+    [], 
+    []
+  ], 
+  "\"\"1\"  \"\"2\"  \"\"3\"  \"\"4\"  \"\"5\"  \"\"6\"  \"\"7\"  \"\"8\"  \"\"9\"   digit": [
+    [], 
+    [
+      "\"\"0\"   digit excluding", 
+      null
+    ]
+  ], 
+  "Realistically we t want this to repeat.  addition operator": [
+    []
+  ], 
+  "digit excluding zero": [
+    [], 
+    [], 
+    [], 
+    [], 
+    [], 
+    [], 
+    [], 
+    [], 
+    []
+  ], 
+  "multiplication operator  division operator  addition operator   mathematic expression": [
+    [
+      null, 
+      null, 
+      "mathematic", 
+      null
+    ]
+  ], 
+  "number": [
+    [], 
+    []
+  ]
+}
