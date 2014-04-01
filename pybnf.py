@@ -7,14 +7,29 @@ convert_whitespace = lambda src:regex_replace("\s\s+"," ",src)
 
 class GrammarParser:
 	rule_searcher = Regex('([^\s][^=]+)\s*=([^;]+);$',re.MULTILINE)
+	#alternate_searcher = 
 	def __init__(self,grammar_text):
 		self.grammar_text = grammar_text.strip()#convert_whitespace(grammar_text).strip()
 	def build_grammar(self):
 		grammar = {}
+		def split_pieces(haystack,needle):
+			last,escaped,i,e=0,False,0,len(haystack)
+			while i<e:
+				if escaped:
+					if haystack[i]=='\\':
+						haystack[i:] = haystack[i+1:]
+						e-=1
+					elif haystack[i]==needle:
+						haystack[i-1:]=haystack[i:]
+				elif haystack[i]==needle:
+					yield haystack[last:i]
+					last = i = i+1
+				else:
+					i+=1
 		for match in self.rule_searcher.finditer(self.grammar_text):
 			rule_name = convert_whitespace(match.group(1)).strip()
 			rule_definition = convert_whitespace(match.group(2)).strip()
-			print("Rule: '{}' found as {}".format(rule_name,rule_definition))
+			grammar[rule_name]=list(split_pieces(rule_definition,'|'))
 		return grammar
 
 if __name__=="__main__":

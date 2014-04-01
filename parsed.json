@@ -1,1 +1,28 @@
-{}
+{
+  "addition operator": [], 
+  "digit": [
+    "\"0\" "
+  ], 
+  "digit excluding zero": [
+    "\"1\" ", 
+    " \"2\" ", 
+    " \"3\" ", 
+    " \"4\" ", 
+    " \"5\" ", 
+    " \"6\" ", 
+    " \"7\" ", 
+    " \"8\" "
+  ], 
+  "division operator": [], 
+  "mathematic expression": [], 
+  "mathematic operator": [
+    "multiplication operator ", 
+    " division operator ", 
+    " addition operator "
+  ], 
+  "multiplication operator": [], 
+  "number": [
+    "digit "
+  ], 
+  "subtraction operator": []
+}
