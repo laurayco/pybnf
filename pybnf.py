@@ -6,14 +6,15 @@ get_pieces = lambda src,sp:[p.strip() for p in src.split(sp) if len(p.strip())>0
 convert_whitespace = lambda src:regex_replace("\s\s+"," ",src)
 
 class GrammarParser:
-	rule_searcher = Regex('([^\s][^=]+)\s*=.+;',re.MULTILINE)
+	rule_searcher = Regex('([^\s][^=]+)\s*=([^;]+);$',re.MULTILINE)
 	def __init__(self,grammar_text):
 		self.grammar_text = grammar_text.strip()#convert_whitespace(grammar_text).strip()
 	def build_grammar(self):
 		grammar = {}
 		for match in self.rule_searcher.finditer(self.grammar_text):
 			rule_name = convert_whitespace(match.group(1)).strip()
-			print("Rule: '{}' found via {}".format(rule_name,match.group(0)))
+			rule_definition = convert_whitespace(match.group(2)).strip()
+			print("Rule: '{}' found as {}".format(rule_name,rule_definition))
 		return grammar
 
 if __name__=="__main__":
