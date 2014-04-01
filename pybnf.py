@@ -8,11 +8,12 @@ convert_whitespace = lambda src:regex_replace("\s\s+"," ",src)
 class GrammarParser:
 	rule_searcher = Regex('([^\s][^=]+)\s*=.+;',re.MULTILINE)
 	def __init__(self,grammar_text):
-		self.grammar_text = convert_whitespace(grammar_text).strip()
+		self.grammar_text = grammar_text.strip()#convert_whitespace(grammar_text).strip()
 	def build_grammar(self):
 		grammar = {}
 		for match in self.rule_searcher.finditer(self.grammar_text):
-			print(match.group(1))
+			rule_name = convert_whitespace(match.group(1)).strip()
+			print("Rule: '{}' found via {}".format(rule_name,match.group(0)))
 		return grammar
 
 if __name__=="__main__":
