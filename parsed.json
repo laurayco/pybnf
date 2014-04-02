@@ -1,7 +1,10 @@
 {
-  "addition operator": [], 
+  "addition operator": [
+    "\"+\""
+  ], 
   "digit": [
-    "\"0\" "
+    "\"0\" ", 
+    " digit excluding zero, (* Realistically we wouldn't want this to repeat. *)"
   ], 
   "digit excluding zero": [
     "\"1\" ", 
@@ -11,18 +14,29 @@
     " \"5\" ", 
     " \"6\" ", 
     " \"7\" ", 
-    " \"8\" "
+    " \"8\" ", 
+    " \"9\""
   ], 
-  "division operator": [], 
-  "mathematic expression": [], 
+  "division operator": [
+    "\"/\""
+  ], 
+  "mathematic expression": [
+    "number, mathematic operator, number"
+  ], 
   "mathematic operator": [
     "multiplication operator ", 
     " division operator ", 
-    " addition operator "
+    " addition operator ", 
+    " subtraction"
   ], 
-  "multiplication operator": [], 
+  "multiplication operator": [
+    "\"*\""
+  ], 
   "number": [
-    "digit "
+    "digit ", 
+    " mathematic expression"
   ], 
-  "subtraction operator": []
+  "subtraction operator": [
+    "\"-\""
+  ]
 }
